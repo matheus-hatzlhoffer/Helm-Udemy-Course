@@ -73,3 +73,22 @@ There are a lot of [function in helm template](https://helm.sh/docs/chart_templa
 It is important to notice that the template defined inside the file follows it's own indentation. It doesn't follow the {{- template}}'s indentation
 
 A . or a $ can pass the context to a template so it can access the variables
+
+## Section 3 - Chart Repository
+
+To create a local chart repository with Chartmuseum.
+
+To add the chrtmuseum repository
+
+``` bash
+chartmuseum --debug --port=8080 --storage=local --storage-local-rootdir="./chartstorage"
+helm repo add <repo_name> http://localhost:8080
+```
+
+To create a package and store in the repository
+
+``` bash
+helm package <chart_folder>/
+curl --data-binary "@<chart_folder>-<chart_version>.tgz" http://localhost:8080/api/charts
+helm repo update
+```
