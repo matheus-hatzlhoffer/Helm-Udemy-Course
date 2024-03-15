@@ -1,0 +1,47 @@
+# Template in the same file
+{{- define "scratch.confglabels"}}
+    drive: ssd
+    machine: frontdrive
+    rack: 4c
+    vcard: 8g
+{{- end }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+  labels:
+  {{- with .Values.tags }}
+    first: {{ .machine }}
+    second: {{ .rack }}
+    third: {{ .drive }}
+  {{- end }}
+    {{- template "scratch.confglabels" }}
+    {{- template "scratch.labels" . }}
+{{ include "scratch.version" . | indent 4 }}
+data:
+  myvalue: "Sample config Map"
+  costCode: {{ .Values.costCode }}
+  Zone: {{ quote .Values.infra.zone }}
+  Region: {{ quote .Values.infra.region }}
+  projectCode: {{ upper .Values.projectCode }}
+  {{- if eq .Values.infra.region "us-e" }}
+  ha: "true" 
+  {{- end }}
+  {{- $relname := .Release.Name }}
+  {{- with .Values.tags }}
+  Machine_Type: {{.machine | default "NA" | quote }}
+  RACK_ID: {{ .rack | quote }}
+  Storage_Type: {{.drive | upper | quote }}
+  Video_Card: {{.vcard | quote }}
+  Release: {{ $relname }}
+  {{- end }}
+  now: {{ now | date "2006-01-02" | quote}}
+  Lang_Used: |-
+    {{- range $index, $lang := .Values.LangUsed }}
+    - {{ $index }} : {{ $lang | title | quote }}
+    {{- end }}
+{{ include "scratch.version" . | indent 2 }}
+  domain: {{ .Values.global.orgdomain}}
+  # pipeline: {{ .Values.projectCode | upper | quote }}
+  # contact: {{ .Values.contact | default "1-800-123-0000" | quote }}

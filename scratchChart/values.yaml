@@ -1,0 +1,19 @@
+costCode: CC98112
+projectCode: aaxxyy
+infra:
+  zone: bb
+  region: us-e
+tags:
+  machine: frontdrive
+  rack: 4c
+  drive: ssd
+  vcard: 8g
+LangUsed:
+  - Python
+  - Ruby
+  - Java
+  - Scala
+subChart:
+  dbhostname: prodmysqlnode
+global:
+  orgdomain: com.hatzlhoffer

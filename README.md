@@ -51,3 +51,25 @@ kubectl get all
 ``` bash
 helm create <chart_name>
 ```
+
+## Section 2 - Charts and Templates
+
+You can configure your template with [built-in objects](https://helm.sh/docs/chart_template_guide/builtin_objects/) or with a yaml file with the values.
+
+To run your helm install just to check the values, you can use the debug and dry-run flags
+
+``` bash
+helm install --debug --dry-run <chart_name> <chart_folder>
+```
+
+To overide a value in the command line you can use the flag --set
+
+``` bash
+helm install --set <value_key>=<value> <chart_name> <chart_folder>
+```
+
+There are a lot of [function in helm template](https://helm.sh/docs/chart_template_guide/function_list/) to add quotes or convert to uppercase, for example.
+
+It is important to notice that the template defined inside the file follows it's own indentation. It doesn't follow the {{- template}}'s indentation
+
+A . or a $ can pass the context to a template so it can access the variables
