@@ -91,4 +91,42 @@ To create a package and store in the repository
 helm package <chart_folder>/
 curl --data-binary "@<chart_folder>-<chart_version>.tgz" http://localhost:8080/api/charts
 helm repo update
+helm search repo -l <repo_name>
 ```
+
+## Section 4 - Chart Management
+
+To manage the helm chart, these commands can be used:
+
+``` bash
+helm upgrade <chart_name> <chart_repo>/<chart_name>
+helm rollback <chart_name> <revision_number>
+helm history <chart_name>
+```
+
+To add dependencies within the chart, declare it in the Chart.yaml
+
+``` yaml
+dependencies:
+  - name: mariadb
+    version: 16.x.x
+    repository: https://charts.bitnami.com/bitnami
+```
+
+``` bash
+helm dependency update ./<chart_folder>
+helm dependency build ./<chart_folder>
+```
+
+### Hooks
+
+- Pre-Install - Hooks run after templates are rendered and before any resources are created in kubernetes
+- Post-Install - Hooks run after all resources are loaded in kubernetes
+- Pre-Delete - Hooks run before any resources are deleted in kubernetes
+- Post-Delete - Hooks run after all resources are deleted in kubernetes
+- Pre-Upgrade - Hooks run after templates are rendered and before any resources are upgraded in kubernetes
+- Post-Upgrade - Hooks run after all resources are upgraded in kubernetes
+- Pre-Rollback - Hooks run after templates are rendered and before any resources are rolled back in kubernetes
+- Post-Rollback - Hooks run after all resources are rolled back in kubernetes
+
+For weighted hooks, those with lower wights are executed before than the highers
