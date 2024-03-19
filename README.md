@@ -130,3 +130,29 @@ helm dependency build ./<chart_folder>
 - Post-Rollback - Hooks run after all resources are rolled back in kubernetes
 
 For weighted hooks, those with lower wights are executed before than the highers
+
+## Section 5 - Testing and Verification
+
+To check for error and warnings in the chart folder run the command
+
+``` bash
+helm lint <chart_folder>
+```
+
+To test run
+
+``` bash
+helm test <chart_name>
+```
+
+The tests are stored in the tests folder inside the templates
+
+The getters and status:
+
+``` bash
+helm get values <chart_name>
+helm get notes <chart_name>
+helm get manifesto <chart_name>
+helm get hooks <chart_name>
+helm status <chart_name>
+```
